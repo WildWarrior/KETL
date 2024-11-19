@@ -1,57 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Box,
-  Button,
   Typography,
+  Button,
+  Paper,
   Grid,
-  Card,
-  CardContent,
-  CardActions,
-  IconButton,
 } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { useConnections } from '../context/ConnectionContext';
-import { ConnectionDialog } from '../components/connections/ConnectionDialog';
+import { Add as AddIcon } from '@mui/icons-material';
 import { ConnectionCard } from '../components/connections/ConnectionCard';
+import { useConnections } from '../context/ConnectionContext';
 
 export const Connections = () => {
-  const { connections, addConnection, updateConnection, deleteConnection } = useConnections();
-  const [openDialog, setOpenDialog] = useState(false);
-  const [editingConnection, setEditingConnection] = useState<any>(null);
-
-  const handleSave = (values: any) => {
-    if (editingConnection) {
-      updateConnection(editingConnection.id, values);
-    } else {
-      addConnection(values);
-    }
-    handleCloseDialog();
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-    setEditingConnection(null);
-  };
-
-  const handleEdit = (connection: any) => {
-    setEditingConnection(connection);
-    setOpenDialog(true);
-  };
-
-  const handleDelete = (id: string) => {
-    deleteConnection(id);
-  };
+  const { connections } = useConnections();
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ p: 3, maxWidth: 'lg', mx: 'auto' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 4 }}>
-        <Typography variant="h5">Data Connections</Typography>
+        <Typography variant="h4" component="h1">
+          Data Connections
+        </Typography>
+        
         <Button
           variant="contained"
           startIcon={<AddIcon />}
-          onClick={() => setOpenDialog(true)}
+          onClick={() => {/* Handle new connection */}}
         >
           New Connection
         </Button>
@@ -59,22 +31,35 @@ export const Connections = () => {
 
       <Grid container spacing={3}>
         {connections.map((connection) => (
-          <Grid item xs={12} sm={6} md={4} key={connection.id}>
-            <ConnectionCard
-              connection={connection}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
+          <Grid item xs={12} md={6} key={connection.id}>
+            <ConnectionCard connection={connection} />
           </Grid>
         ))}
       </Grid>
 
-      <ConnectionDialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-        onSave={handleSave}
-        initialData={editingConnection}
-      />
+      {connections.length === 0 && (
+        <Paper 
+          sx={{ 
+            p: 4, 
+            textAlign: 'center',
+            bgcolor: 'grey.50'
+          }}
+        >
+          <Typography variant="h6" color="text.secondary" gutterBottom>
+            No connections yet
+          </Typography>
+          <Typography color="text.secondary" paragraph>
+            Start by adding a new data connection
+          </Typography>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => {/* Handle new connection */}}
+          >
+            Add Connection
+          </Button>
+        </Paper>
+      )}
     </Box>
   );
 };

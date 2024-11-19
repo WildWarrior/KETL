@@ -5,110 +5,177 @@ import {
   Typography,
   Paper,
   Grid,
+  Button,
   Card,
   CardContent,
-  CardMedia,
-  Button,
-  useTheme
+  CardActions,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Divider,
 } from '@mui/material';
-import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import {
+  ShowChart,
+  Timeline,
+  TrendingUp,
+  Analytics,
+  Speed,
+  DataUsage,
+  Assessment,
+  CompareArrows,
+} from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
 export const Home = () => {
-  const theme = useTheme();
   const navigate = useNavigate();
 
   const features = [
     {
-      title: 'Data Connections',
-      description: 'Connect and integrate data from multiple trading systems and data sources',
-      icon: <CompareArrowsIcon sx={{ fontSize: 40 }} />,
-      path: '/connections'
+      icon: <ShowChart color="primary" />,
+      title: 'Market Data Analysis',
+      description: 'Transform complex market data into clear, actionable insights'
     },
     {
-      title: 'Data Visualiser',
-      description: 'Visualize and analyze your commodity trading data with interactive charts',
-      icon: <BarChartIcon sx={{ fontSize: 40 }} />,
-      path: '/visualiser'
+      icon: <Timeline color="primary" />,
+      title: 'Custom Visualizations',
+      description: 'Create tailored views of your trading data with flexible column definitions'
     },
     {
-      title: 'Data Mapper',
-      description: 'Create and manage field mappings between different data schemas',
-      icon: <AccountTreeIcon sx={{ fontSize: 40 }} />,
-      path: '/mapper'
+      icon: <TrendingUp color="primary" />,
+      title: 'Real-time Processing',
+      description: 'Process and analyze market data in real-time with instant visualization'
+    },
+    {
+      icon: <Analytics color="primary" />,
+      title: 'Multiple Data Sources',
+      description: 'Connect to various data sources including APIs, databases, and file systems'
     }
   ];
 
   return (
-    <Box>
+    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
       {/* Hero Section */}
-      <Box
+      <Paper 
+        elevation={0}
         sx={{
           bgcolor: 'primary.main',
-          color: 'white',
+          color: 'primary.contrastText',
           py: 8,
-          mb: 6
+          borderRadius: 0
         }}
       >
         <Container maxWidth="lg">
           <Grid container spacing={4} alignItems="center">
-            <Grid item xs={12} md={6}>
-              <Typography variant="h2" component="h1" gutterBottom>
-                KETL
-              </Typography>
-              <Typography variant="h5" gutterBottom>
-                Data Transformation Tool for Commodities Trading
-              </Typography>
-              <Typography variant="body1" paragraph sx={{ mb: 4 }}>
-                Streamline your data transformation processes in commodities trading and risk management with our powerful ETL tool.
-              </Typography>
-              <Button 
-                variant="contained" 
-                color="secondary"
-                size="large"
-                onClick={() => navigate('/mapper')}
-                sx={{ mr: 2 }}
+            <Grid item xs={12} md={7}>
+              <Typography 
+                variant="h2" 
+                gutterBottom 
+                fontWeight="bold"
+                sx={{ 
+                  fontSize: { xs: '2.5rem', md: '3.5rem' },
+                  lineHeight: 1.2 
+                }}
               >
-                Get Started
-              </Button>
+                KETL Trading Data Platform
+              </Typography>
+              <Typography 
+                variant="h5" 
+                paragraph 
+                sx={{ 
+                  mb: 4,
+                  opacity: 0.9,
+                  maxWidth: '600px' 
+                }}
+              >
+                Streamline your market data analysis with powerful visualization tools
+              </Typography>
+              <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                <Button
+                  variant="contained"
+                  size="large"
+                  color="secondary"
+                  onClick={() => navigate('/connections')}
+                >
+                  Setup Connections
+                </Button>
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={() => navigate('/visualiser')}
+                  sx={{ 
+                    bgcolor: 'white', 
+                    color: 'primary.main',
+                    '&:hover': {
+                      bgcolor: 'grey.100'
+                    }
+                  }}
+                >
+                  Start Analyzing
+                </Button>
+              </Box>
             </Grid>
-            <Grid item xs={12} md={6}>
-              {/* You can add an illustration or diagram here */}
+            <Grid item xs={12} md={5}>
+              <Box 
+                sx={{ 
+                  display: 'flex', 
+                  justifyContent: 'center',
+                  transform: { md: 'scale(1.2)' }
+                }}
+              >
+                <Speed sx={{ 
+                  fontSize: { xs: 200, md: 300 }, 
+                  opacity: 0.8 
+                }} />
+              </Box>
             </Grid>
           </Grid>
         </Container>
-      </Box>
+      </Paper>
 
       {/* Features Section */}
-      <Container maxWidth="lg" sx={{ mb: 8 }}>
-        <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ mb: 6 }}>
-          Key Features
+      <Container maxWidth="lg" sx={{ py: 8 }}>
+        <Typography 
+          variant="h4" 
+          align="center" 
+          gutterBottom 
+          fontWeight="bold"
+          sx={{ mb: 6 }}
+        >
+          Platform Features
         </Typography>
         <Grid container spacing={4}>
-          {features.map((feature) => (
-            <Grid item xs={12} md={4} key={feature.title}>
+          {features.map((feature, index) => (
+            <Grid item xs={12} sm={6} md={3} key={index}>
               <Card 
                 sx={{ 
-                  height: '100%',
-                  display: 'flex',
+                  height: '100%', 
+                  display: 'flex', 
                   flexDirection: 'column',
+                  transition: 'transform 0.2s',
                   '&:hover': {
-                    boxShadow: 6,
-                    cursor: 'pointer'
+                    transform: 'translateY(-4px)'
                   }
                 }}
-                onClick={() => navigate(feature.path)}
               >
                 <CardContent sx={{ flexGrow: 1, textAlign: 'center' }}>
-                  <Box sx={{ color: 'primary.main', mb: 2 }}>
-                    {feature.icon}
+                  <Box sx={{ mb: 2 }}>
+                    {React.cloneElement(feature.icon, { 
+                      sx: { fontSize: 48, color: 'primary.main' } 
+                    })}
                   </Box>
-                  <Typography gutterBottom variant="h5" component="h3">
+                  <Typography 
+                    variant="h6" 
+                    gutterBottom
+                    sx={{ fontWeight: 600 }}
+                  >
                     {feature.title}
                   </Typography>
-                  <Typography color="text.secondary">
+                  <Typography 
+                    variant="body2" 
+                    color="text.secondary"
+                    sx={{ lineHeight: 1.6 }}
+                  >
                     {feature.description}
                   </Typography>
                 </CardContent>
@@ -118,36 +185,28 @@ export const Home = () => {
         </Grid>
       </Container>
 
-      {/* Benefits Section */}
-      <Box sx={{ bgcolor: 'grey.100', py: 8 }}>
+      {/* Call to Action */}
+      <Box sx={{ bgcolor: 'primary.dark', color: 'white', py: 6 }}>
         <Container maxWidth="lg">
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ mb: 6 }}>
-            Why Choose KETL?
-          </Typography>
-          <Grid container spacing={4}>
-            {[
-              'Specialized for commodities trading',
-              'Intuitive data mapping interface',
-              'Real-time data transformation',
-              'Advanced data validation',
-              'Comprehensive audit trails',
-              'Secure data handling'
-            ].map((benefit) => (
-              <Grid item xs={12} sm={6} md={4} key={benefit}>
-                <Paper 
-                  sx={{ 
-                    p: 3, 
-                    height: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textAlign: 'center'
-                  }}
+          <Grid container spacing={2} alignItems="center" justifyContent="center">
+            <Grid item xs={12} textAlign="center">
+              <Typography variant="h4" gutterBottom fontWeight="bold">
+                Ready to Get Started?
+              </Typography>
+              <Typography variant="subtitle1" paragraph sx={{ opacity: 0.9 }}>
+                Begin by setting up your data connections and create custom visualizations.
+              </Typography>
+              <Box sx={{ mt: 3, display: 'flex', gap: 2, justifyContent: 'center' }}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  size="large"
+                  onClick={() => navigate('/connections')}
                 >
-                  <Typography>{benefit}</Typography>
-                </Paper>
-              </Grid>
-            ))}
+                  Setup Connections
+                </Button>
+              </Box>
+            </Grid>
           </Grid>
         </Container>
       </Box>
